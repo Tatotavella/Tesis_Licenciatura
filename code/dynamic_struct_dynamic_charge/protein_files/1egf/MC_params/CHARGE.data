@@ -1,0 +1,14 @@
+#PosInSeq(1 to N+2)		Letter		AcidOrBase(-1 or 1)		InitialCharge	(N+1,Nter,letter X. N+2,Cter,letter Z)
+11				D		-1				0
+22				H		1				0
+24				E		-1				0
+27				D		-1				-1
+40				D		-1				0
+41				R		1				0
+45				R		1				1
+46				D		-1				-1
+48				R		1				0
+51				E		-1				0
+53				R		1				1
+54				X		1				1
+55				Z		-1				0

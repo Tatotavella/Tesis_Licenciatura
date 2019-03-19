@@ -1,0 +1,115 @@
+LAMMPS (9 Oct 2012)
+# 3d protein simulation
+
+units real
+
+timestep 2
+
+dimension	3
+
+boundary s s s
+#boundary p p p
+
+neighbor	10 bin
+neigh_modify	delay 5
+
+atom_modify sort 0 0.0
+
+special_bonds fene
+
+atom_style	peptide
+
+bond_style harmonic
+
+pair_style vexcluded 2 3.5 3.5
+
+read_data data.3gb1
+  3 = max bonds/atom
+  orthogonal box = (-200 -200 -200) to (200 200 200)
+  1 by 1 by 1 MPI processor grid
+  168 atoms
+  222 bonds
+  5 = max # of 1-2 neighbors
+  5 = max # of special neighbors
+
+pair_coeff * * 0.0
+pair_coeff 1 1 20.0 3.5 4.5
+pair_coeff 1 4 20.0 3.5 4.5
+pair_coeff 4 4 20.0 3.5 4.5
+pair_coeff 3 3 20.0 3.5 3.5
+
+
+velocity	all create 300.0 2349852
+
+group		alpha_carbons id 1 4 7 10 13 16 19 22 25 28 31 34 37 40 43 46 49 52 55 58 61 64 67 70 73 76 79 82 85 88 91 94 97 100 103 106 109 112 115 118 121 124 127 130 133 136 139 142 145 148 151 154 157 160 163 166
+56 atoms in group alpha_carbons
+
+group		beta_atoms id 3 6 9 12 15 18 21 24 27 30 33 36 39 42 45 48 51 54 57 60 63 66 69 72 75 78 81 84 87 90 93 96 99 102 105 108 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153 156 159 162 165 168
+56 atoms in group beta_atoms
+
+group		oxygens id 2 5 8 11 14 17 20 23 26 29 32 35 38 41 44 47 50 53 56 59 62 65 68 71 74 77 80 83 86 89 92 95 98 101 104 107 110 113 116 119 122 125 128 131 134 137 140 143 146 149 152 155 158 161 164 167
+56 atoms in group oxygens
+
+
+fix		  1 all nvt temp 300.0 300.0 100.0
+fix		  2 alpha_carbons backbone beta_atoms oxygens fix_backbone_coeff.data 3gb1.seq
+Chain flag on
+Chi flag on
+Rama flag on
+Rama_P flag on
+SSWeight flag on
+ABC flag on
+Dssp_Hdrgn flag on
+P_AP flag on
+Water flag on
+Burial flag on
+Helix flag on
+Fragment_Memory_Table flag on
+DebyeHuckel on
+
+Reading fragments...
+Computing FM table...
+
+thermo		1000
+dump		1 all atom 1000 dump.lammpstrj
+
+dump_modify	1 sort id
+
+reset_timestep	0
+run		10000
+Memory usage per processor = 0.86441 Mbytes
+Step Temp E_pair E_mol TotEng Press Volume 
+       0          300    32.534843     538.6443    184.99517   -19826.359    16010.266 
+    1000    294.02057    5.4166003    95.793844   -220.52852    849.84885    16010.266 
+    2000    264.47513    4.0179351    93.913663   -238.94142   -1336.4099    16010.266 
+    3000    303.68397    4.4408638    84.591982   -201.98363   -1037.9137    16010.266 
+    4000    304.57454    4.5953759    69.953838   -223.13165    2641.2584    16010.266 
+    5000    303.08274    2.9399373    65.347664   -228.45667   -1206.3268    16010.266 
+    6000    276.45698    1.9638987    67.918985   -243.50715   -1855.5807    16010.266 
+    7000    309.62076    4.4686414    67.459608   -207.72073    2526.3755    16010.266 
+    8000    297.61629    4.4890389    64.992439   -237.25946   -388.61272    16010.266 
+    9000    274.05707    4.8933337    82.266343   -208.53398   -181.93916    16010.266 
+   10000    327.53865    7.6565575    67.338284   -196.77438    1166.0862    16010.266 
+Loop time of 35.5083 on 1 procs for 10000 steps with 168 atoms
+
+Pair  time (%) = 1.00136 (2.82007)
+Bond  time (%) = 0.0694339 (0.195543)
+Neigh time (%) = 0 (0)
+Comm  time (%) = 0.00620317 (0.0174696)
+Outpt time (%) = 0.00345087 (0.00971849)
+Other time (%) = 34.4279 (96.9572)
+
+Nlocal:    168 ave 168 max 168 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    0 ave 0 max 0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    7197 ave 7197 max 7197 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  14394 ave 14394 max 14394 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 14394
+Ave neighs/atom = 85.6786
+Ave special neighs/atom = 2.64286
+Neighbor list builds = 0
+Dangerous builds = 0
